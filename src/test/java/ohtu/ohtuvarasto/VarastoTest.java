@@ -39,6 +39,73 @@ public class VarastoTest {
     }
 
     @Test
+    public void virheellinenKonstruktorinArvo() {
+        Varasto v = new Varasto(-1);
+        assertTrue(v.getTilavuus() == 0);
+    }
+
+    @Test
+    public void konstruktoriSaldolla() {
+        Varasto v = new Varasto(10, 2);
+        assertTrue(v.getTilavuus() == 10);
+        assertTrue(v.getSaldo() == 2);
+    }
+
+    @Test
+    public void konstruktoriSaldollaNegatiivinen() {
+        Varasto v = new Varasto(-1, 0);
+        assertTrue(v.getTilavuus() == 0);
+    }
+
+    @Test
+    public void konstruktoriSaldollaTilavuusPienempi() {
+        Varasto v = new Varasto(5, 10);
+        assertTrue(v.getTilavuus() == 5);
+        assertTrue(v.getSaldo() == 5);
+    }
+
+    @Test
+    public void konstruktoriSaldollaAlkusaldoNegatiivinen() {
+        Varasto v = new Varasto(5, -1);
+        assertTrue(v.getSaldo() == 0);
+    }
+
+    @Test
+    public void negatiivinenLisaysEiMuutaMitaan() {
+        double ennen = varasto.getSaldo();
+        varasto.lisaaVarastoon(-1);
+        assertTrue(ennen == varasto.getSaldo());
+    }
+
+    @Test
+    public void ylimenevatHeitetaanPois() {
+        double tilaa = varasto.paljonkoMahtuu();
+        varasto.lisaaVarastoon(tilaa + 10);
+        assertTrue(varasto.paljonkoMahtuu() == 0);
+    }
+
+    @Test
+    public void eiVoiOttaaNegatiivista() {
+        double ennen = varasto.getSaldo();
+        varasto.otaVarastosta(-1);
+        assertTrue(varasto.getSaldo() == ennen);
+    }
+
+    @Test
+    public void eiVoiOttaaEnempaaKuinOn() {
+        double ennen = varasto.getSaldo();
+        varasto.otaVarastosta(ennen + 10);
+        assertTrue(varasto.getSaldo() == 0);
+    }
+
+    @Test
+    public void oikeaMerkkijono() {
+        double saldo = varasto.getSaldo();
+        double mahtuu = varasto.paljonkoMahtuu();
+        assertTrue(varasto.toString().equals("saldo = " + saldo + ", vielä tilaa " + mahtuu));
+    }
+
+    @Test
     public void lisaysLisaaPienentaaVapaataTilaa() {
         varasto.lisaaVarastoon(8);
 
